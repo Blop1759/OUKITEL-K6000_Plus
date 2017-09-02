@@ -21,7 +21,8 @@
 
 #include <linux/input.h>
 #include "include/gt1x_tpd_common.h"
-#include "gt1x_config.h"
+//#include "gt1x_config.h"
+#include "config_k6000/gt1x_config.h"
 
 #ifdef CONFIG_GTP_PROXIMITY
 #include <linux/hwmsensor.h>
@@ -537,7 +538,7 @@ s32 gt1x_send_cfg(u8 *config, int cfg_len)
 		ret = gt1x_i2c_write(GTP_REG_CONFIG_DATA, config, cfg_len);
 		if (!ret) {
 			msleep(200);	/* must 200ms, wait for storing config into flash. */
-			GTP_DEBUG("Send config successfully!");
+			GTP_ERROR("Send config successfully!");
 			return 0;
 		}
 	}

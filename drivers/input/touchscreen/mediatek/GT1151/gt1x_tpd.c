@@ -417,10 +417,8 @@ void gt1x_irq_disable(void)
 
 void gt1x_power_switch(s32 state)
 {
-#if !defined(CONFIG_MTK_LEGACY)
-#if defined(CONFIG_ARCH_MT6580) || defined(TPD_POWER_REGULATOR_SUPPORT)
+#if !defined(CONFIG_MTK_LEGACY) || defined(CONFIG_ARCH_MT6580)
 	int ret = 0;
-#endif
 #endif
 
 	GTP_GPIO_OUTPUT(GTP_RST_PORT, 0);
@@ -432,13 +430,9 @@ void gt1x_power_switch(s32 state)
 		if (power_flag == 0) {
 			GTP_DEBUG("Power switch on!");
 #if !defined(CONFIG_MTK_LEGACY)
-#ifdef TPD_POWER_REGULATOR_SUPPORT
-            ret = regulator_enable(tpd->reg);	/*enable regulator*/
-            if (ret)
-              GTP_ERROR("regulator_enable() failed!\n");
-#else
-            tpd_ldo_power_enable(1);
-#endif
+			ret = regulator_enable(tpd->reg);	/*enable regulator*/
+			if (ret)
+				GTP_ERROR("regulator_enable() failed!\n");
 #else
 #ifdef TPD_POWER_SOURCE_CUSTOM
 #ifdef CONFIG_ARCH_MT6580
@@ -462,13 +456,9 @@ void gt1x_power_switch(s32 state)
 		if (power_flag == 1) {
 			GTP_DEBUG("Power switch off!");
 #if !defined(CONFIG_MTK_LEGACY)
-#ifdef TPD_POWER_REGULATOR_SUPPORT
-            ret = regulator_disable(tpd->reg);	/*disable regulator*/
-            if (ret)
-              GTP_ERROR("regulator_disable() failed!\n");
-#else
-            tpd_ldo_power_enable(0);
-#endif
+			ret = regulator_disable(tpd->reg);	/*disable regulator*/
+			if (ret)
+				GTP_ERROR("regulator_disable() failed!\n");
 #else
 #ifdef TPD_POWER_SOURCE_CUSTOM
 #ifdef CONFIG_ARCH_MT6580
@@ -973,19 +963,17 @@ static int tpd_i2c_remove(struct i2c_client *client)
 static int tpd_local_init(void)
 {
 #if !defined CONFIG_MTK_LEGACY
-#ifdef TPD_POWER_REGULATOR_SUPPORT
 	int ret;
 
 	GTP_INFO("Device Tree get regulator!");
-	tpd->reg = regulator_get(tpd->tpd_dev, "vtouch");
+//	tpd->reg = regulator_get(tpd->tpd_dev, "vtouch");
+	//	MT6750 LDO
+	tpd->reg = regulator_get(tpd->tpd_dev, "vldo28");
 	ret = regulator_set_voltage(tpd->reg, 2800000, 2800000);	/*set 2.8v*/
 	if (ret) {
 		GTP_ERROR("regulator_set_voltage(%d) failed!\n", ret);
 		return -1;
 	}
-#else
-    tpd_ldo_power_enable(1);
-#endif
 #endif
 #ifdef TPD_POWER_SOURCE_CUSTOM
 #ifdef CONFIG_ARCH_MT6580

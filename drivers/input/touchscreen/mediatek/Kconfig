@@ -23,7 +23,7 @@ config TOUCHSCREEN_MTK
 	  module will be called.
 
 source "drivers/input/touchscreen/mediatek/GT1151/Kconfig"
-
+source "drivers/input/touchscreen/mediatek/GT1XX/Kconfig"
 
 config TOUCHSCREEN_MTK_GT1151TB
 	bool "GT1151 for Mediatek package"

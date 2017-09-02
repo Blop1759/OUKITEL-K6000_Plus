@@ -876,12 +876,12 @@ static int tpd_local_init(void)
     printk("kls init\n");
 #ifdef TPD_POWER_SOURCE_CUSTOM
 #ifdef GTP_CONFIG_OF
-#ifdef CONFIG_ARCH_MT6580
+//#ifdef CONFIG_ARCH_MT6580
     tpd->reg = regulator_get(tpd->tpd_dev,TPD_POWER_SOURCE_CUSTOM); // get pointer to regulator structure
     if (IS_ERR(tpd->reg)) {
         GTP_ERROR("regulator_get() failed.");
     }
-#endif
+//#endif
 #endif
 #endif
 

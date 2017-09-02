@@ -28,7 +28,9 @@
 #include <linux/mount.h>
 #include <linux/uaccess.h>
 
-#include "gt1x_config.h"
+//#include "gt1x_config.h"
+#include "config_k6000/gt1x_config.h"
+
 #include "include/gt1x_tpd_common.h"
 #if defined(CONFIG_GTP_HOTKNOT) || defined(CONFIG_GTP_HEADER_FW_UPDATE)
 #include "gt1x_firmware.h"
